@@ -28,8 +28,8 @@ public class BrandController {
     @PostMapping
     public ResponseEntity<?> addBrand(@RequestBody @Valid BrandDto brandDto) {
         Brand brand = brandMapper.toBrand(brandDto);
-        Brand saved = brandService.create(brand);
-        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+        var saved = brandService.create(brand);
+        return ResponseEntity.status(HttpStatus.CREATED).body(brandMapper.toBrandDto(saved));
     }
 
     /* == List Brands :: Filter By Name ==*/
@@ -39,10 +39,12 @@ public class BrandController {
     ) {
         List<Brand> allBrands = brandService.getAllBrands(name);
 
-        if (allBrands.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        HttpStatus httpStatus = HttpStatus.OK;
+
+        if (allBrands.isEmpty()){
+            httpStatus = HttpStatus.NO_CONTENT;
         }
-        return ResponseEntity.status(HttpStatus.OK).body(allBrands);
+        return ResponseEntity.status(httpStatus).body(allBrands);
     }
 
     /* == Brand :: By ID ==*/
@@ -57,7 +59,7 @@ public class BrandController {
     public ResponseEntity<?> update(@RequestBody BrandDto brandDto) {
         Brand dto = brandMapper.toBrand(brandDto);
         Brand updated = brandService.updateBrand(dto);
-        return ResponseEntity.status(HttpStatus.OK).body(updated);
+        return ResponseEntity.status(HttpStatus.OK).body(brandMapper.toBrandDto(updated));
     }
 
     /* == Delete ==*/

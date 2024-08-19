@@ -16,4 +16,14 @@ public class BrandMapper {
                 .name(brandDto.getName())
                 .build();
     }
+
+    public BrandDto toBrandDto(Brand brand){
+        if(brand == null){
+            return null;
+        }
+        return BrandDto.builder()
+                .id(brand.getId())
+                .name(brand.getName())
+                .build();
+    }
 }
