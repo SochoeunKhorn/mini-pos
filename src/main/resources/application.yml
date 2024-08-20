@@ -20,5 +20,10 @@ server:
 logging:
   level:
     root: warn
+# swagger-ui custom path
+springdoc:
+  swagger-ui:
+    path: /swagger
+    operations-sorter: method
 
 
