@@ -56,14 +56,8 @@ public class BrandServiceImpl implements BrandService {
 
         /* == soft delete :: updated isDelete = true == */
         Brand brand = getBrand(brandID);
-
-        if (!brand.getIsDeleted()){
-            brand.setIsDeleted(true);
-            brandRepository.save(brand);
-        }else {
-            throw new NotFoundException(format("Brand with ID %d not found", brandID));
-        }
-
+        brand.setIsDeleted(true);
+        brandRepository.save(brand);
     }
 
     /*
