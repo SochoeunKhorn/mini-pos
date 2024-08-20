@@ -1,6 +1,5 @@
 package com.sochoeun.service.impl;
 
-import com.sochoeun.dto.PageResponse;
 import com.sochoeun.handler.NotFoundException;
 import com.sochoeun.model.Brand;
 import com.sochoeun.repository.BrandRepository;
@@ -25,6 +24,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public Brand create(Brand request) {
+        request.setIsDeleted(false);
         return brandRepository.save(request);
     }
 
@@ -33,14 +33,14 @@ public class BrandServiceImpl implements BrandService {
         log.info("Sorting name : {}", name);
 
         if (name == null || name.isEmpty()) {
-            return brandRepository.findAll();
+            return brandRepository.findAllByIsDeletedIsFalse();
         }
-        return brandRepository.findAllByNameContaining(name);
+        return brandRepository.findAllByNameContainingAndIsDeletedFalse(name);
     }
 
     @Override
     public Brand getBrand(Long brandID) {
-        return brandRepository.findById(brandID).
+        return brandRepository.findByIdAndIsDeletedFalse(brandID).
                 orElseThrow(()-> new NotFoundException(format("Brand with ID %d not found", brandID)));
     }
 
@@ -53,7 +53,17 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public void deleteBrand(Long brandID) {
-        brandRepository.deleteById(brandID);
+
+        /* == soft delete :: updated isDelete = true == */
+        Brand brand = getBrand(brandID);
+
+        if (!brand.getIsDeleted()){
+            brand.setIsDeleted(true);
+            brandRepository.save(brand);
+        }else {
+            throw new NotFoundException(format("Brand with ID %d not found", brandID));
+        }
+
     }
 
     /*

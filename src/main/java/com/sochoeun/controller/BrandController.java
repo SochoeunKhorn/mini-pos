@@ -39,19 +39,27 @@ public class BrandController {
     ) {
         List<Brand> allBrands = brandService.getAllBrands(name);
 
+        List<BrandDto> brandDtoList = allBrands.stream()
+                .map(
+                        brand -> BrandDto.builder()
+                                .id(brand.getId())
+                                .name(brand.getName())
+                                .build())
+                .toList();
+
         HttpStatus httpStatus = HttpStatus.OK;
 
         if (allBrands.isEmpty()){
             httpStatus = HttpStatus.NO_CONTENT;
         }
-        return ResponseEntity.status(httpStatus).body(allBrands);
+        return ResponseEntity.status(httpStatus).body(brandDtoList);
     }
 
     /* == Brand :: By ID ==*/
     @GetMapping("/{brand-id}")
     public ResponseEntity<?> getBrand(@PathVariable("brand-id") Long brandId) {
         Brand brand = brandService.getBrand(brandId);
-        return ResponseEntity.status(HttpStatus.OK).body(brand);
+        return ResponseEntity.status(HttpStatus.OK).body(brandMapper.toBrandDto(brand));
     }
 
     /* == Update ==*/

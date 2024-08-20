@@ -1,10 +1,7 @@
 package com.sochoeun.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,4 +16,8 @@ public class Brand {
 
     @Column(nullable = false,unique = true,length = 100)
     private String name;
+
+
+    @Column(columnDefinition = "BOOLEAN DEFAULT false")
+    private Boolean isDeleted;
 }

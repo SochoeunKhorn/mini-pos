@@ -1,8 +1,10 @@
 spring:
+  main:
+    banner-mode: off
   datasource:
-    url: jdbc:postgresql://localhost:2001/short_course
-    username: sochoeun
-    password: pass
+    url: jdbc:postgresql://localhost:5432/short_course
+    username: postgres
+    password: 089882413
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -13,13 +15,10 @@ spring:
         format_sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-#keycloadk
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          jwk-set-uri: http://localhost:8080/realms/short_course/protocol/openid-connect/certs
 server:
   port: 8000
+logging:
+  level:
+    root: warn
 
 
