@@ -8,6 +8,6 @@ import lombok.Data;
 public class PageDto {
     private Long totalElements;
     private int totalPages;
-    private int size;
+    private int limit;
     private int numberOfElements;
 }

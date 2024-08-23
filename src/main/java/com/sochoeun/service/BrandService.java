@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 
 
 import java.util.List;
+import java.util.Map;
 
 public interface BrandService {
     Brand create(Brand request);
@@ -15,4 +16,7 @@ public interface BrandService {
 
     /* Pagination */
     Page<Brand> getBrands(String name,Integer offset,Integer limit);
+
+    /* Pagination with Map */
+    Page<Brand> getBrands(Map<String,String> params);
 }

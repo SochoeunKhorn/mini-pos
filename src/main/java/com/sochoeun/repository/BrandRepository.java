@@ -10,10 +10,10 @@ import java.util.Optional;
 
 public interface BrandRepository extends JpaRepository<Brand, Long> {
     // sorting brands by name
-    List<Brand> findAllByNameContaining(String brandName);
-    Page<Brand> findAllByNameContaining(String brandName, Pageable pageable);
+    List<Brand> findAllByNameContainingIgnoreCase(String brandName);
+    Page<Brand> findAllByNameContainingIgnoreCase(String brandName, Pageable pageable);
 
     Optional<Brand> findByIdAndIsDeletedFalse(Long id);
-    List<Brand> findAllByNameContainingAndIsDeletedFalse(String brandName);
+    List<Brand> findAllByNameContainingIgnoreCaseAndIsDeletedFalse(String brandName);
     List<Brand> findAllByIsDeletedIsFalse();
 }

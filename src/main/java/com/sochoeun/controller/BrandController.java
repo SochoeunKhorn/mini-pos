@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/brands")
@@ -95,4 +96,16 @@ public class BrandController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    /* == Pagination with Mpa<> == */
+    @GetMapping("/get/pagination")
+    public ResponseEntity<?> getBrandPagination(@RequestParam Map<String,String> params){
+        Page<Brand> brands = brandService.getBrands(params);
+        PageResponse response = new PageResponse(brands);
+
+        HttpStatus httpStatus = HttpStatus.OK;
+        if (brands.isEmpty()) {
+            httpStatus = HttpStatus.NO_CONTENT;
+        }
+        return ResponseEntity.status(httpStatus).body(response);
+    }
 }

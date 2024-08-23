@@ -14,7 +14,7 @@ public class PageResponse {
         this.pageDto = PageDto.builder()
                 .totalElements(page.getTotalElements())
                 .totalPages(page.getTotalPages())
-                .size(page.getSize())
+                .limit(page.getSize())
                 .numberOfElements(page.getNumberOfElements())
                 .build();
     }

@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 import static java.lang.String.*;
 
@@ -35,7 +36,7 @@ public class BrandServiceImpl implements BrandService {
         if (name == null || name.isEmpty()) {
             return brandRepository.findAllByIsDeletedIsFalse();
         }
-        return brandRepository.findAllByNameContainingAndIsDeletedFalse(name);
+        return brandRepository.findAllByNameContainingIgnoreCaseAndIsDeletedFalse(name);
     }
 
     @Override
@@ -83,6 +84,41 @@ public class BrandServiceImpl implements BrandService {
         if (name == null || name.isEmpty()) {
             return brandRepository.findAll(pageable);
         }
-        return brandRepository.findAllByNameContaining(name,pageable);
+        return brandRepository.findAllByNameContainingIgnoreCase(name,pageable);
+    }
+
+    /* Pagination with Map */
+    @Override
+    public Page<Brand> getBrands(Map<String, String> params) {
+
+        /*
+        *   Map<key,value> :
+        *       + Map<offset,1>
+        *       + Map<limit,10>
+        * */
+        int offset = 0;
+        int limit = 10;
+        String name = "";
+        if (params.containsKey("offset")){
+             offset = Integer.parseInt(params.get("offset"));
+        }
+        if (params.containsKey("limit")){
+             limit = Integer.parseInt(params.get("limit"));
+        }
+        if (params.containsKey("name")){
+            name = params.get("name");
+        }
+
+        if (offset <= 0){
+            offset = 1;
+        }
+
+        Pageable pageable = PageRequest.of(offset-1,limit);
+
+        if (name == null || name.isEmpty()) {
+            return brandRepository.findAll(pageable);
+        }
+        return brandRepository.findAllByNameContainingIgnoreCase(name,pageable);
+
     }
 }
