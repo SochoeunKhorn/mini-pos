@@ -4,6 +4,7 @@ import com.sochoeun.dto.GeneralSettingDto;
 import com.sochoeun.mapper.GeneralSettingMapper;
 import com.sochoeun.model.GeneralSetting;
 import com.sochoeun.service.GeneralSettingService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class GeneralSettingController {
     private final GeneralSettingMapper generalSettingMapper;
     
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody GeneralSettingDto dto) {
+    public ResponseEntity<?> create(@Valid @RequestBody GeneralSettingDto dto) {
         GeneralSetting generalSetting = generalSettingService.createGeneralSetting(generalSettingMapper.toGeneralSetting(dto));
         return ResponseEntity.ok(generalSettingMapper.toGeneralSettingDto(generalSetting));
     }
