@@ -1,6 +1,7 @@
 package com.sochoeun.service.impl;
 
 import com.sochoeun.dto.CustomerDto;
+import com.sochoeun.handler.NotFoundException;
 import com.sochoeun.model.Customer;
 import com.sochoeun.repository.CustomerRepository;
 import com.sochoeun.service.CustomerService;
@@ -55,7 +56,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer getCustomer(Long customerId) {
         return customerRepository.findByIdAndDeletedFalse(customerId)
-                .orElseThrow(() -> new RuntimeException("Customer not found with id " + customerId));
+                .orElseThrow(() -> new NotFoundException("Customer not found with id " + customerId));
     }
 
     @Override
