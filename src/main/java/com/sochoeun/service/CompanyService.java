@@ -1,5 +1,6 @@
 package com.sochoeun.service;
 
+import com.sochoeun.dto.CompanyDto;
 import com.sochoeun.model.Company;
 import org.springframework.data.domain.Page;
 
@@ -17,7 +18,7 @@ public interface CompanyService {
     * */
 
     Company createCompany(Company company);
-    Page<Company> getCompanies(Map<String,String> params);
+    Page<CompanyDto> getCompanies(Map<String,String> params);
     Company getCompany(Long companyId);
     Company updateCompany(Company company);
     void deleteCompany(Long companyId);

@@ -5,6 +5,7 @@ import com.sochoeun.dto.PageResponse;
 import com.sochoeun.mapper.CompanyMapper;
 import com.sochoeun.model.Company;
 import com.sochoeun.service.CompanyService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/companies")
+@Tag(name = "COMPANY")
 public class CompanyController {
     private final CompanyService companyService;
     private final CompanyMapper companyMapper;
@@ -30,8 +32,8 @@ public class CompanyController {
 
     @GetMapping
     public ResponseEntity<?> getAllCompanies(@RequestParam Map<String, String> params){
-
-        Page<Company> companies = companyService.getCompanies(params);
+        /* == Params-> offset:1,limit:10,name ==*/
+        Page<CompanyDto> companies = companyService.getCompanies(params);
         PageResponse response = new PageResponse(companies);
 
         HttpStatus httpStatus = HttpStatus.OK;

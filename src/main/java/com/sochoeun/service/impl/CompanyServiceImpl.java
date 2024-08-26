@@ -1,5 +1,6 @@
 package com.sochoeun.service.impl;
 
+import com.sochoeun.dto.CompanyDto;
 import com.sochoeun.model.Company;
 import com.sochoeun.repository.CompanyRepository;
 import com.sochoeun.service.CompanyService;
@@ -23,19 +24,19 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Page<Company> getCompanies(Map<String, String> params) {
+    public Page<CompanyDto> getCompanies(Map<String, String> params) {
 
         int offset = 0;
         int limit = 10;
-        String name = "";
+        String local_name = "";
         if (params.containsKey("offset")){
             offset = Integer.parseInt(params.get("offset"));
         }
         if (params.containsKey("limit")){
             limit = Integer.parseInt(params.get("limit"));
         }
-        if (params.containsKey("name")){
-            name = params.get("name");
+        if (params.containsKey("local-name")){
+            local_name = params.get("local-name");
         }
 
         if (offset <= 0){
@@ -43,8 +44,10 @@ public class CompanyServiceImpl implements CompanyService {
         }
 
         Pageable pageable = PageRequest.of(offset-1,limit);
-
-        return companyRepository.findAllByIsDeletedIsFalse(pageable);
+        if (!local_name.isEmpty()){
+            return companyRepository.findAllByIsDeletedIsFalseAndCompanyLocalNameContainingIgnoreCase(local_name,pageable);
+        }else
+            return companyRepository.findAllByIsDeletedIsFalse(pageable);
     }
 
     @Override

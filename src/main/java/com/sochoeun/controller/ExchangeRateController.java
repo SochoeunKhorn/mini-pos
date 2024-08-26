@@ -4,6 +4,7 @@ import com.sochoeun.dto.ExchangeRateDto;
 import com.sochoeun.mapper.ExchangeRateMapper;
 import com.sochoeun.model.ExchangeRate;
 import com.sochoeun.service.ExchangeRateService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/exchange-rate")
+@Tag(name = "EXCHANGE-RATE")
 public class ExchangeRateController {
     private final ExchangeRateService exchangeRateService;
     private final ExchangeRateMapper exchangeRateMapper;

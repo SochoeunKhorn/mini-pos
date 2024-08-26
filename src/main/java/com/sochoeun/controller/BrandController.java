@@ -23,7 +23,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Tag(name="Brand")
 public class BrandController {
-    private static final Logger log = LoggerFactory.getLogger(BrandController.class);
     private final BrandService brandService;
     private final BrandMapper brandMapper;
 
@@ -81,7 +80,7 @@ public class BrandController {
     }
 
     /*  == Pagination ==  */
-    @GetMapping("/pagination")
+/*    @GetMapping("/pagination")
     ResponseEntity<?> getBrands(
             @RequestParam(required = false) String name,
             @RequestParam(required = false,defaultValue = "1") Integer offSet,
@@ -94,10 +93,10 @@ public class BrandController {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
         return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
+    }*/
 
     /* == Pagination with Mpa<> == */
-    @GetMapping("/get/pagination")
+    @GetMapping("/pagination")
     public ResponseEntity<?> getBrandPagination(@RequestParam Map<String,String> params){
         Page<Brand> brands = brandService.getBrands(params);
         PageResponse response = new PageResponse(brands);

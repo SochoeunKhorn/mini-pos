@@ -1,13 +1,17 @@
 package com.sochoeun.service.impl;
 
+import com.sochoeun.dto.GeneralSettingDto;
 import com.sochoeun.handler.NotFoundException;
 import com.sochoeun.model.GeneralSetting;
 import com.sochoeun.repository.GeneralSettingRepository;
 import com.sochoeun.service.GeneralSettingService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -20,8 +24,24 @@ public class GeneralSettingServiceImpl implements GeneralSettingService {
     }
 
     @Override
-    public List<GeneralSetting> getAllGeneralSettings() {
-        return generalSettingRepository.findAll();
+    public Page<GeneralSettingDto> getAllGeneralSettings(Map<String,String> params) {
+
+        int offset = 0;
+        int limit = 10;
+        String local_name = "";
+        if (params.containsKey("offset")){
+            offset = Integer.parseInt(params.get("offset"));
+        }
+        if (params.containsKey("limit")){
+            limit = Integer.parseInt(params.get("limit"));
+        }
+
+        if (offset <= 0){
+            offset = 1;
+        }
+
+        Pageable pageable = PageRequest.of(offset-1,limit);
+        return generalSettingRepository.findAllByDeletedFalse(pageable);
     }
 
     @Override

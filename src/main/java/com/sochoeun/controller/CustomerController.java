@@ -5,6 +5,7 @@ import com.sochoeun.dto.PageResponse;
 import com.sochoeun.mapper.CustomerMapper;
 import com.sochoeun.model.Customer;
 import com.sochoeun.service.CustomerService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1/customers")
 @RequiredArgsConstructor
+@Tag(name = "CUSTOMER")
 public class CustomerController {
     private final CustomerService customerService;
     private final CustomerMapper customerMapper;
