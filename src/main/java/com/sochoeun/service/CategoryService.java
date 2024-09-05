@@ -4,6 +4,7 @@ import com.sochoeun.dto.CategoryDto;
 import com.sochoeun.dto.CategoryListResponse;
 import com.sochoeun.dto.SubCategoryDto;
 import com.sochoeun.model.Category;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -21,7 +22,8 @@ public interface CategoryService {
     void updateCategory(SubCategoryDto category, Long categoryId);
 
     /* == get only parent category == */
-    //
     List<CategoryDto> getAllParentCategory();
+
+    String uploadImage(Long id,MultipartFile file);
 
 }

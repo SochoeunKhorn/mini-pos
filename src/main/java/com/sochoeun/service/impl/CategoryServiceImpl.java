@@ -1,4 +1,5 @@
 package com.sochoeun.service.impl;
+import com.sochoeun.config.FileUploadService;
 import com.sochoeun.dto.CategoryDto;
 import com.sochoeun.dto.CategoryListResponse;
 import com.sochoeun.dto.SubCategoryDto;
@@ -7,16 +8,21 @@ import com.sochoeun.model.Category;
 import com.sochoeun.repository.CategoryRepository;
 import com.sochoeun.service.CategoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
+    private final FileUploadService fileUploadService;
 
+    @Value("${application.fileUpload.clientPath}"+"/category/")
+    private String uploadPath;
 
     @Override
     public Category createCategory(Category category) {
@@ -79,6 +85,16 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryDto> getAllParentCategory() {
         return categoryRepository.findAllByParentIsNull();
+    }
+
+    @Override
+    public String uploadImage(Long id, MultipartFile file) {
+        Category category = getCategory(id);
+        String photoName = String.valueOf(Calendar.getInstance().getTimeInMillis());
+        String photoUrl = fileUploadService.generateUrl(uploadPath,photoName,file,"/api/v1/categories/upload/");
+        category.setImagePath(photoUrl);
+        categoryRepository.save(category);
+        return photoUrl;
     }
 
 }
